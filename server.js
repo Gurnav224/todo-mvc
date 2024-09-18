@@ -2,11 +2,6 @@ const express = require("express");
 const { intializeDatabase } = require("./config/DBConnection");
 const morgan = require('morgan')
 const todoRouter = require('./routes/Todo.routes')
-// const  {config} = require('dotenv')
-
-// config({
-//     path:'./config/config.env'
-// })
 
 
 intializeDatabase()
@@ -20,6 +15,7 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(todoRouter);
 
+console.log('IP',process.env.IP)
 
 //setting view engine to ejs
 app.set('view engine','ejs')
@@ -33,10 +29,10 @@ if(process.env.NODE_ENV === "development"){
 //     res.render('index')
 // })
 
-const PORT  = process.env.PORT || 3000; 
+const PORT  = process.env.PORT
 
 
 
 app.listen(PORT,() => {
-    console.log(`server running in ${process.env.NODE_ENV} MODE http://localhost:${PORT}`)
+    console.log(`server running in ${process.env.NODE_ENV} MODE ${PORT}`)
 })
