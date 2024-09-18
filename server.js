@@ -2,11 +2,11 @@ const express = require("express");
 const { intializeDatabase } = require("./config/DBConnection");
 const morgan = require('morgan')
 const todoRouter = require('./routes/Todo.routes')
-const  {config} = require('dotenv')
+// const  {config} = require('dotenv')
 
-config({
-    path:'./config/config.env'
-})
+// config({
+//     path:'./config/config.env'
+// })
 
 
 intializeDatabase()
