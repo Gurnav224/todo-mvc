@@ -3,6 +3,7 @@ const { intializeDatabase } = require("./config/DBConnection");
 const morgan = require('morgan')
 const todoRouter = require('./routes/Todo.routes')
 
+
 intializeDatabase()
 
 
