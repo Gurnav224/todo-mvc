@@ -1,0 +1,144 @@
+<%- include('./partials/header.ejs') %>
+
+
+    <main>
+        <div class="ui segment">
+            <h1>Todo Application</h1>
+
+
+
+
+
+            <ul class="ui relaxed list">
+                <% todos.forEach(todo=> { %>
+                    <li class="item">
+                        <% if(todo.completed===true) { %>
+                            <span class="completed"><i class="check icon"></i>
+                                <%= todo.title %>
+                            </span>
+                            <% } else { %>
+                                <span class="not-completed"><i class="close icon"></i>
+                                    <%= todo.title %>
+                                </span>
+                                <% } %>
+                                    <span class='fa fa-trash float-right'></span>
+                    </li>
+                    <% }) %>
+            </ul>
+
+
+            <!-- check for the todo that are left to incomplete -->
+            <h2>Left to do: <%= left %>
+            </h2>
+
+            <form action="/createTodo" method="POST" class="ui form">
+                <div class="field">
+                    <label for="title">Todo Title</label>
+                    <input type="text" id="title" name="title" placeholder="Enter Todo Title" required>
+                </div>
+                <button type="submit" class="ui blue button">Submit</button>
+            </form>
+
+        </div>
+    </main>
+
+
+    <footer>
+
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+
+
+    <script>
+        const completedItems = document.querySelectorAll('.item span.completed');
+        const IncompletedItem = document.querySelectorAll('.item span.not-completed');
+        const deleteItems = document.querySelectorAll('.fa-trash');
+
+
+
+        Array.from(completedItems).forEach((item) => {
+            item.addEventListener('click', markUnComplete)
+        })
+
+
+        Array.from(IncompletedItem).forEach((item) => {
+            item.addEventListener('click', markcomplete)
+        })
+
+        Array.from(deleteItems).forEach((deleteItem) => {
+            deleteItem.addEventListener('click', deleteTodo)
+        })
+
+
+
+
+
+        function markUnComplete() {
+            const title = this.parentNode.children[ 0 ].textContent.trim();
+            console.log('title', this.parentNode.children[ 0 ])
+
+            fetch('/unmark', {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title }) // Correct way to send JSON body
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    setTimeout(() => {
+
+                        window.location.reload();
+                    })
+                })
+                .catch((error) => {
+                    console.error('client error', error);
+                });
+
+        }
+
+        function markcomplete() {
+            const title = this.parentNode.children[ 0 ].textContent.trim();
+            console.log('title', title)
+            fetch('/mark', {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title }) // Correct way to send JSON body
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    setTimeout(() => {
+
+                        window.location.reload();
+                    })
+                })
+                .catch((error) => {
+                    console.error('client error', error);
+                });
+
+        }
+
+        function deleteTodo() {
+            const title = this.parentNode.children[ 0 ].textContent.trim();
+            const listItem = this.parentElement;
+
+            console.log('delete', listItem)
+            fetch('/todo', {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({ title: title })
+            })
+                .then(res => res.json())
+                .then((data) => {
+                    console.log('Deleted Todo succsessfully', data)
+                    listItem.remove()
+                    location.reload()
+                })
+        }
+
+    </script>
+    </body>
+
+    </html>
