@@ -74,7 +74,7 @@
 
 
         function markUnComplete() {
-            const title = this.parentNode.children[ 0 ].textContent.trim();
+            const title = this.parentNode.children[ 0 ].textContent.trimEnd();
             console.log('title', this.parentNode.children[ 0 ])
 
             fetch('/unmark', {
@@ -97,7 +97,7 @@
         }
 
         function markcomplete() {
-            const title = this.parentNode.children[ 0 ].textContent.trim();
+            const title = this.parentNode.children[ 0 ].textContent.trimEnd();
             console.log('title', title)
             fetch('/mark', {
                 method: "PUT",
@@ -119,7 +119,7 @@
         }
 
         function deleteTodo() {
-            const title = this.parentNode.children[ 0 ].textContent.trim();
+            const title = this.parentNode.children[ 0 ].textContent.trimEnd();
             const listItem = this.parentElement;
 
             console.log('delete', listItem)

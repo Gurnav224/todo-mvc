@@ -3,6 +3,11 @@ const { intializeDatabase } = require("./config/DBConnection");
 const morgan = require('morgan')
 const todoRouter = require('./routes/Todo.routes')
 const os = require('os');
+const { config} = require('dotenv')
+
+config({
+  path:'./config/config.env'
+})
 
 intializeDatabase()
 
@@ -15,7 +20,6 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(todoRouter);
 
-console.log('IP',process.env.IP)
 
 //setting view engine to ejs
 app.set('view engine','ejs')
@@ -47,5 +51,5 @@ function getLocalIpAddress() {
   console.log(`Server is running on IP address: ${localIpAddress}`);
 
 app.listen(PORT,() => {
-    console.log(`server running in ${process.env.NODE_ENV} MODE ${PORT}`)
+    console.log(`server running on ${PORT}`)
 })

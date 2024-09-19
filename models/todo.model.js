@@ -5,7 +5,8 @@ const {Schema} = mongoose;
 const TodoSchema = new Schema({
     title:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     completed:{
         type:Boolean,
